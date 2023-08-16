@@ -14,7 +14,7 @@ class HeaderComponent extends Component{
                     <nav className="navbar navbar-dark" bg-primary>
                         <div>
                             <a href='/gateways'>
-                                gateway management
+                               
                             </a>
                         </div>
                     </nav>

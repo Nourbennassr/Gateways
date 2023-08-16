@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+/* Add this CSS to your component's stylesheet */
+.table-container {
+  width: 98vw; /* Set the width to 100% of the viewport width */
+  overflow-x:hidden; /* Enable horizontal scrolling if needed */
+}
+
+table {
+  width: 100%; /* Table will take up 100% of the container's width */
+  border-collapse: collapse;
+  border: 1px solid black; /* Optional border style */
+}
+
+table, th, td {
+
+  padding: 8px;
+  text-align: left;
+}
+
+/* Style the "Add Gateway" button */
+.add-button {
+ 
+  margin-bottom: 3px;
+  margin-left: 75vw;
+  width:30vw
+}

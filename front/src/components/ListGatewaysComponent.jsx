@@ -1,77 +1,63 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import '../App.css'
 
-import React, { Component } from 'react'
-import gatewayservices from '../services/gatewayservices'
-class ListGatewaysComponent extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            gateway: []
 
-        }
 
-       
+class ListGatewaysComponent extends Component {    
+    state = {
+        gateways: [] // Initialize with an empty array for multiple gateways
     }
+
     componentDidMount() {
-        gatewayservices.getGateway()
-          .then((res) => {
-            if (res.data == null) {
-              this.props.history.push('/add-gateway/_add');
-            } 
-              this.setState({ gateway:res.data });
-            
-          })
-          
-            // Handle the error gracefully, e.g., display an error message to the user
-        
-      }
-      addGateway(){
-        this.props.history.push('/add-gateway/_add')
-      }
+        fetch('http://127.0.0.1:5000/gateways')
+            .then((response) => response.json())
+            .then((result) => {
+                this.setState({ gateways: result });
+            });
+    }
+
     render() {
         return (
-            <div>
-                <h2 className='text-center'> gateway list </h2>
-                <div className='row'>
-                    <button onClick={this.addGateway} className='btn btn-primary'>AddGateway</button>
+            <div className="App">
+                <h1>Our Gateways</h1>
+                <div className="add-button">
+                    <button type="button" class="btn btn-success" >Add Gateway</button>
                 </div>
-                <br></br>
-                <div className="row">
-                <table className="table table-striped table-bordered">
-                    <thead><tr>
-                        <th> gateway_name</th>
-                        <th> mac_address</th>
-                        <th> address</th>
-                        <th> sensors</th>
-                        <th> cropType</th>
-                        <th> climateType</th>
-                        <th> farmingType</th>
+                <div className="table-container">
+                <table class="table table-striped table-bordered" >
+                    <thead class="thead-dark">
+                        <tr>
+                            <th >Gateway_name</th>
+                            <th >Address</th>
+                            <th>Climate_Type</th>
+                            <th >Crop_Type</th>
+                            <th >Farming_Type</th>
+                            <th >Mac_Address</th>
+                            <th >Sensors</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.gateway.map((gateway) => (
-                            <tr key={gateway.gateway_id}>
-                                <td>{gateway.gateway_name}</td>
-                                <td>{gateway.mac_address}</td>
+                        {this.state.gateways.map((gateway, index) => (
+                            <tr  scope="row" key={index}>
+                                <td >{gateway.gateway_name}</td>
                                 <td>{gateway.address}</td>
-                                <td>{gateway.sensors}</td>
-                                <td>{gateway.cropType}</td>
                                 <td>{gateway.climateType}</td>
+                                <td>{gateway.cropType}</td>
                                 <td>{gateway.farmingType}</td>
-                                <td>
-                                    <button onClick={() => this.editGateway(gateway.id)} className="btn btn-info">Update</button>
-                                    <button style={{ marginLeft: "10px" }} onClick={() => this.deleteGateway(gateway.id)} className="btn btn-info">delete</button>
-                                    <button style={{ marginLeft: "10px" }} onClick={() => this.viewGateway(gateway.id)} className="btn btn-info">view</button>
-                                </td>
+                                <td>{gateway.mac_address}</td>
+                                <td>{gateway.sensors.join(', ')}</td>
                             </tr>
                         ))}
                     </tbody>
-             
-
-
                 </table>
-                </div>
-            </div>
-
-        )
+             </div>
+        </div>
+        );
+    
+                    
+        
     }
-} export default ListGatewaysComponent
+}
+
+export default ListGatewaysComponent;
